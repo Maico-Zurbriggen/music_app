@@ -1,12 +1,32 @@
 import { useState } from 'react'
+import axios from 'axios';
 
-export const SearchBar = () => {
-    const [searchTerm, setSearchTerm] = useState('')
+export const SearchBar = ({token, modifyArtists}) => {
+    const [searchTerm, setSearchTerm] = useState('');
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        // Here you can handle the search submission
-        console.log('Search term:', searchTerm)
+    const fetchArtist = async () => {
+        try {
+            const response = await axios({
+                method: 'get',
+                url: `https://api.spotify.com/v1/search?q=${searchTerm}&type=artist`,
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            })
+
+            return response.data;
+        } catch (error) {
+            console.error("Error obteniendo artista: ", error);
+        } finally {
+            setSearchTerm("");
+        }
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const result = await fetchArtist();
+        modifyArtists(result.artists.items);
     }
 
     return (
