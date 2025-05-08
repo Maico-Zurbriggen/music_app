@@ -1,46 +1,43 @@
-import { useState } from 'react'
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import { useFetch } from "../hooks/useFetch";
+import { Error, Loading } from '../components';
 
-export const SearchBar = ({token, modifyArtists}) => {
-    const [searchTerm, setSearchTerm] = useState('');
+export const SearchBar = ({ token, modifyArtists }) => {
+  const [searchTerm, setSearchTerm] = useState("");
 
-    const fetchArtist = async () => {
-        try {
-            const response = await axios({
-                method: 'get',
-                url: `https://api.spotify.com/v1/search?q=${searchTerm}&type=artist`,
-                headers: {
-                    "Authorization": `Bearer ${token}`
-                }
-            })
-
-            return response.data;
-        } catch (error) {
-            console.error("Error obteniendo artista: ", error);
-        } finally {
-            setSearchTerm("");
-        }
+  const { data, loading, error, fetchData } = useFetch({
+    url: `https://api.spotify.com/v1/search?q=${searchTerm}&type=artist`,
+    method: "get",
+    headers: {
+      Authorization: `Bearer ${token}`,
     }
+  });
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const result = await fetchArtist();
-        modifyArtists(result.artists.items);
+  useEffect(() => {
+    if (data) {
+      modifyArtists(data.artists.items);
     }
+  }, [data]);
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search..."
-                className="search-input"
-            />
-            <button type="submit">
-                Search
-            </button>
-        </form>
-    )
-}
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    fetchData();
+  };
+
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search..."
+          className="search-input"
+        />
+        <button type="submit">Search</button>
+      </form>
+      {loading && <Loading />}
+      {error && <Error error="Error obteniendo los artistas" />}
+    </>
+  );
+};
