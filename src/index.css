@@ -44,3 +44,7 @@ body {
   color: var(--color-bottom-menu-details);
   font-size: 30px;
 }
+
+.imagen-general {
+  font-size: 100px;
+}
