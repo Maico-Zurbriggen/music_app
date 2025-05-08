@@ -1,10 +1,8 @@
 import { useLocation } from "react-router-dom";
+import { DetailsArtis } from "../components/DetailsArtis";
 
 export const Details = () => {
-  const { state } = useLocation();
-  const { name, img, id } = state;
+  return <DetailsArtis />;
+};
 
-  return (
-    <h1>{name}</h1>
-  )
-}
+export default Details;

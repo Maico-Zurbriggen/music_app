@@ -52,6 +52,7 @@ export const Home = () => {
             name={artist.name}
             img={artist.images}
             id={artist.id}
+            token={token}  // Asegúrate de pasar el token aquí
           />
         ))}
       </ul>
