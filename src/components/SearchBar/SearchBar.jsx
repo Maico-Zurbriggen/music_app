@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { useFetch } from "../hooks/useFetch";
-import { Error, Loading } from '../components';
+import { useFetch } from "../../hooks/useFetch";
+import { Error, Loading } from '../../components';
+import './SearchBar.css';
 
 export const SearchBar = ({ token, modifyArtists }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -26,15 +27,18 @@ export const SearchBar = ({ token, modifyArtists }) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="container-form-search">
         <input
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search..."
           className="search-input"
+          autoComplete="new-password"
+          spellCheck="false"
+          aria-autocomplete="none"
         />
-        <button type="submit">Search</button>
+        <button type="submit" className="button">Search</button>
       </form>
       {loading && <Loading />}
       {error && <Error error="Error obteniendo los artistas" />}

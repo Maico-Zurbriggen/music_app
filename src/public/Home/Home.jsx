@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { SearchBar, CardArtist, Loading, Error } from "../components";
-import { useFetch } from "../hooks/useFetch";
+import { SearchBar, CardArtist, Loading, Error } from "../../components";
+import { useFetch } from "../../hooks/useFetch";
+import './Home.css';
 
 const datos = new URLSearchParams({
   grant_type: "client_credentials",
@@ -32,24 +33,22 @@ export const Home = () => {
     }
   }, [data]);
 
-  console.log(artists);
-
   return (
-    <>
+    <main className="container-home">
       <SearchBar token={token} modifyArtists={modifyArtists} />
-      <ul>
+      <ul className="list-artists">
         {artists.map((artist) => (
           <CardArtist
             key={artist.id}
             name={artist.name}
             img={artist.images}
             id={artist.id}
-            token={token}  // Asegúrate de pasar el token aquí
+            token={token}
           />
         ))}
       </ul>
       {loading && <Loading />}
       {error && <Error error="Error obteniendo el token" />}
-    </>
+    </main>
   );
 };

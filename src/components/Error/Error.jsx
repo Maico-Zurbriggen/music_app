@@ -1,3 +1,5 @@
+import './Error.css';
+
 export const Error = ({ error }) => {
   return (
     <section className="error-section">

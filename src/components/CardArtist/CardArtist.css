@@ -1,0 +1,53 @@
+.header-card {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 0;
+}
+
+.header-card h2 {
+  font-size: 24px;
+}
+
+.header-card .imagen-artist {
+  width: 200px;
+  height: 200px;
+}
+
+.card a {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--color-text);
+  text-align: center;
+  padding: 20px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  border-radius: 15px;
+}
+
+.card a:hover {
+  transform: translateY(-10px);
+  background-color: rgba(29, 185, 84, 0.1);
+}
+
+.imagen-artist {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.name-artist {
+  font-size: 16px;
+}
+
+.card a:hover .imagen-artist {
+  box-shadow: 0 10px 20px rgba(29, 185, 84, 0.3);
+  transform: scale(1.05);
+}
