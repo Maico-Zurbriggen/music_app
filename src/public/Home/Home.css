@@ -1,9 +1,81 @@
+.home-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
 .container-home {
+  flex: 1;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: start;
-  padding: 30px;
+}
+
+/* Estilos para el formulario de búsqueda */
+.search-form {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.search-form input {
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 20px;
+  border: none;
+  background-color: #282828;
+  color: white;
+  font-size: 16px;
+}
+
+.search-form button {
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  background-color: #1db954;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-form button:hover {
+  background-color: #1ed760;
+}
+
+.favorites-sidebar {
+  width: 200px;
+  background-color: #121212;
+  padding: 20px;
+  border-left: 1px solid #282828;
+}
+
+.favorites-sidebar h2 {
+  color: white;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.favorites-list {
+  list-style: none;
+  padding: 0;
+}
+
+.favorites-list .list-artists {
+  display: block;
+}
+
+.favorites-list li {
+  margin-bottom: 15px;
+}
+
+.favorites-list img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .list-artists {

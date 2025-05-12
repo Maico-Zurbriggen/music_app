@@ -8,6 +8,10 @@ export const Details = () => {
   const location = useLocation();
   const { name, selectedImage, id, token } = location.state;
   const [albums, setAlbums] = useState([]);
+  const [isFavorite, setIsFavorite] = useState(() => {
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    return favorites.some(fav => fav.id === id);
+  });
 
   const { data, loading, error } = useFetch({
     url: `https://api.spotify.com/v1/artists/${id}/albums`,
@@ -24,11 +28,35 @@ export const Details = () => {
     }
   }, [data]);
 
+  const handleToggleFavorite = () => {
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    let newFavorites;
+
+    if (isFavorite) {
+      newFavorites = favorites.filter(fav => fav.id !== id);
+    } else {
+      newFavorites = [...favorites, { id, name, selectedImage, token }];
+    }
+
+    localStorage.setItem('favorites', JSON.stringify(newFavorites));
+    setIsFavorite(!isFavorite);
+  };
+
   return (
     <main>
-      <Link to="/" className="button volver">
-        Volver
-      </Link>
+      <div className="header-actions">
+        <Link to="/" className="button volver">
+          Volver
+        </Link>
+        <button 
+          className={`button favorite ${isFavorite ? 'is-favorite' : ''}`}
+          onClick={handleToggleFavorite}
+          title={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+        >
+          <i className={`fa-${isFavorite ? 'solid' : 'regular'} fa-heart`}></i>
+        </button>
+      </div>
+
       <CardArtist
         name={name}
         img={selectedImage}
