@@ -1,19 +1,71 @@
-.card {
+.album-card {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  color: var(--color-text);
   text-align: center;
-  padding: 20px;
+  padding: 15px;
+  background-color: rgba(29, 185, 84, 0.1);
+  border-radius: 10px;
   transition: transform 0.3s ease, background-color 0.3s ease;
-  border-radius: 15px;
+  height: 100%;
+  width: 200px;
 }
 
-.card:hover {
-  transform: translateY(-10px);
+.album-card:hover {
+  transform: translateY(-5px);
+  background-color: rgba(29, 185, 84, 0.2);
+}
+
+.album-card a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 15px;
+  border-radius: 10px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  height: 100%;
+  width: 180px;
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.album-card a:hover {
+  transform: translateY(-5px);
   background-color: rgba(29, 185, 84, 0.1);
+}
+
+.album-card img {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%; /* Mantiene la imagen redonda */
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.album-card div {
+  width: 100%; /* Asegura que el contenedor del texto use todo el ancho */
+  padding: 0 10px; /* Espacio para el texto */
+}
+
+.album-card h3 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.2;
+  margin-bottom: 5px;
+  /* Evita que textos largos se desborden */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  height: 2.4em; /* Altura fija para 2 líneas */
+}
+
+.album-card p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
 }
 
 .album-img {

@@ -1,4 +1,5 @@
 export const AppRoutes = {
   home: '/home',
-  details: '/details'
+  details: '/details',
+  detailsAlbum: '/detailsAlbum'
 }

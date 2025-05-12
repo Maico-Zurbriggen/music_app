@@ -3,13 +3,50 @@ section {
 }
 
 .list-albums {
-  margin: 0;
-  padding: 20px 0;
-  list-style: none;
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 20px;
+  padding: 20px;
+  list-style: none;
+  justify-content: center; /* Centra los elementos */
+}
+
+.album-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 15px;
+  background-color: rgba(29, 185, 84, 0.1);
+  border-radius: 10px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  height: 100%;
+}
+
+.album-card:hover {
+  transform: translateY(-5px);
+  background-color: rgba(29, 185, 84, 0.2);
+}
+
+.album-card img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.album-card h3 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.2;
+  margin-bottom: 5px;
+}
+
+.album-card p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
 }
 
 .volver {

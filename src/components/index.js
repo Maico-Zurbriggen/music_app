@@ -1,4 +1,4 @@
-export { RoutesWithNotFound } from './RoutesWithNotFound';
+export { RoutesWithNotFound } from './RoutesWithNotFound/RoutesWithNotFound';
 export { SearchBar } from './SearchBar/SearchBar';
 export { CardArtist } from './CardArtist/CardArtist';
 export { AlbumsArtist } from './AlbumsArtist/AlbumsArtist';

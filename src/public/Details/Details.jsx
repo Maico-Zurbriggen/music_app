@@ -1,13 +1,19 @@
 import { useState, useEffect } from "react";
 import { useFetch } from "../../hooks/useFetch";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, Navigate } from "react-router-dom";
 import { AlbumsArtist, CardArtist, Error, Loading } from "../../components";
 import "./Details.css";
+import { AppRoutes } from "../../models";
 
 export const Details = () => {
   const location = useLocation();
-  const { name, selectedImage, id, token } = location.state;
+  const { name, selectedImage, id, token } = location.state || {};
   const [albums, setAlbums] = useState([]);
+
+  // Si no hay información en location.state, redirigir a home
+  if (!location.state || !name || !id || !token) {
+    return <Navigate to={AppRoutes.home} />;
+  }
 
   const { data, loading, error } = useFetch({
     url: `https://api.spotify.com/v1/artists/${id}/albums`,
@@ -26,7 +32,7 @@ export const Details = () => {
 
   return (
     <main>
-      <Link to="/" className="button volver">
+      <Link to={AppRoutes.home} className="button volver">
         Volver
       </Link>
       <CardArtist
@@ -45,6 +51,8 @@ export const Details = () => {
               name={album.name}
               images={album.images}
               releaseDate={album.release_date}
+              id={album.id}
+              token={token}
             />
           ))}
         </ul>
