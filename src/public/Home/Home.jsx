@@ -1,7 +1,15 @@
 import { useState, useEffect } from "react";
-import { SearchBar, CardArtist, Loading, Error } from "../../components";
+import {
+  SearchBar,
+  CardArtist,
+  Loading,
+  Error,
+  Button,
+  AsideFavorites
+} from "../../components";
 import { useFetch } from "../../hooks/useFetch";
-import './Home.css';
+import { AppRoutes } from "../../models";
+import "./Home.css";
 
 const datos = new URLSearchParams({
   grant_type: "client_credentials",
@@ -13,7 +21,7 @@ export const Home = () => {
   const [token, setToken] = useState(null);
   const [artists, setArtists] = useState([]);
   const [favorites, setFavorites] = useState(() => {
-    return JSON.parse(localStorage.getItem('favorites') || '[]');
+    return JSON.parse(localStorage.getItem("favorites") || "[]");
   });
 
   const modifyArtists = (newArtists) => {
@@ -27,7 +35,7 @@ export const Home = () => {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     datos: datos,
-    autoFetch: true
+    autoFetch: true,
   });
 
   useEffect(() => {
@@ -39,6 +47,9 @@ export const Home = () => {
   return (
     <div className="home-layout">
       <main className="container-home">
+        <Button isLink={true} redirectUri={AppRoutes.favoriteTracks} fixed={true}>
+          <i className="fa-solid fa-music"></i>
+        </Button>
         <SearchBar token={token} modifyArtists={modifyArtists} />
         <ul className="list-artists">
           {artists.map((artist) => (
@@ -57,21 +68,7 @@ export const Home = () => {
 
       {/* Solo mostrar el sidebar si hay favoritos */}
       {favorites.length > 0 && (
-        <aside className="favorites-sidebar">
-          <h2>Artistas Favoritos</h2>
-          <ul className="favorites-list">
-            {favorites.map((artist) => (
-              <CardArtist
-                key={artist.id}
-                name={artist.name}
-                img={[artist.selectedImage]}
-                id={artist.id}
-                token={token}
-                isFavorite={true}
-              />
-            ))}
-          </ul>
-        </aside>
+        <AsideFavorites favorites={favorites} token={token} />
       )}
     </div>
   );

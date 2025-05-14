@@ -1,17 +1,25 @@
 import { useState, useEffect } from "react";
 import { useFetch } from "../../hooks/useFetch";
-import { useLocation, Link } from "react-router-dom";
-import { AlbumsArtist, CardArtist, Error, Loading } from "../../components";
+import { useLocation, Link, Navigate } from "react-router-dom";
+import { AlbumsArtist, CardArtist, Error, Loading, Button } from "../../components";
 import "./Details.css";
+import { AppRoutes } from "../../models";
+import { handleToggleFavorite } from "../../utils";
 
 export const Details = () => {
   const location = useLocation();
-  const { name, selectedImage, id, token } = location.state;
+  const { name, selectedImage, id, token } = location.state || {};
   const [albums, setAlbums] = useState([]);
+  const [shouldRedirect, setShouldRedirect] = useState(false);
+
   const [isFavorite, setIsFavorite] = useState(() => {
     const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
     return favorites.some(fav => fav.id === id);
   });
+
+  const modifyIsFavorite = (newIsFavorite) => {
+    setIsFavorite(newIsFavorite);
+  };
 
   const { data, loading, error } = useFetch({
     url: `https://api.spotify.com/v1/artists/${id}/albums`,
@@ -28,30 +36,24 @@ export const Details = () => {
     }
   }, [data]);
 
-  const handleToggleFavorite = () => {
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    let newFavorites;
-
-    if (isFavorite) {
-      newFavorites = favorites.filter(fav => fav.id !== id);
-    } else {
-      newFavorites = [...favorites, { id, name, selectedImage, token }];
+  useEffect(() => {
+    // Si hay un error 404, redirigir a home
+    if (error && error.message.includes('404')) {
+      setShouldRedirect(true);
     }
+  }, [error]);
 
-    localStorage.setItem('favorites', JSON.stringify(newFavorites));
-    setIsFavorite(!isFavorite);
-  };
+  if (shouldRedirect || !location.state || !name || !id || !token) {
+    return <Navigate to={AppRoutes.home} />;
+  }
 
   return (
     <main>
       <div className="header-actions">
-        <Link to="/" className="button volver">
-          Volver
-        </Link>
+        <Button text="volver" isLink={true} redirectUri={AppRoutes.home} fixed={true} />
         <button 
           className={`button favorite ${isFavorite ? 'is-favorite' : ''}`}
-          onClick={handleToggleFavorite}
-          title={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+          onClick={() => handleToggleFavorite({id, isFavorite, modifyIsFavorite, name, selectedImage, token})}
         >
           <i className={`fa-${isFavorite ? 'solid' : 'regular'} fa-heart`}></i>
         </button>
@@ -71,8 +73,13 @@ export const Details = () => {
             <AlbumsArtist
               key={album.id}
               name={album.name}
+              nameArtist={name}
+              img={selectedImage}
+              idArtist={id}
               images={album.images}
               releaseDate={album.release_date}
+              id={album.id}
+              token={token}
             />
           ))}
         </ul>
