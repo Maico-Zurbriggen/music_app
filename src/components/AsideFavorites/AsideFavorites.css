@@ -1,0 +1,21 @@
+.favorites-sidebar {
+  width: 200px;
+  background-color: var(--color-dark);
+  padding: 20px;
+  border-left: 2px solid var(--color-light);
+}
+
+.favorites-sidebar h2 {
+  color: var(--color-text-primary);
+  font-size: 24px;
+}
+
+.favorites-list {
+  list-style: none;
+  padding: 0;
+}
+
+.favorites-list img {
+  width: 100px;
+  height: 100px;
+}
